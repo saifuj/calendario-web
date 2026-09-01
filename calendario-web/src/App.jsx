@@ -1,109 +1,136 @@
-const weekDays = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom']
+import { useEffect, useRef, useState } from 'react'
+import { useIsAuthenticated, useMsal, useAccount } from '@azure/msal-react'
+import { ArrowRightStartOnRectangleIcon } from '@heroicons/react/20/solid'
+import Login from './pages/Login'
+import CalendarView from './components/calendar/CalendarView'
+import DashboardView from './components/dashboard/DashboardView'
+import { useTasks } from './hooks/useTasks'
+import { sincronizarUsuario } from './lib/api'
 
-const monthDays = [
-  { day: 29, muted: true },
-  { day: 30, muted: true },
-  { day: 1 },
-  { day: 2 },
-  { day: 3 },
-  { day: 4 },
-  { day: 5 },
-  { day: 6 },
-  { day: 7 },
-  { day: 8 },
-  { day: 9 },
-  { day: 10 },
-  { day: 11 },
-  { day: 12 },
-  { day: 13 },
-  { day: 14 },
-  { day: 15 },
-  { day: 16 },
-  { day: 17 },
-  { day: 18 },
-  { day: 19 },
-  { day: 20 },
-  { day: 21 },
-  { day: 22 },
-  { day: 23 },
-  { day: 24 },
-  { day: 25 },
-  { day: 26 },
-  { day: 27 },
-  { day: 28 },
-  { day: 29 },
-  { day: 30 },
-  { day: 1, muted: true },
-  { day: 2, muted: true },
+const PESTANAS = [
+  { id: 'calendario', etiqueta: 'Calendario' },
+  { id: 'dashboard', etiqueta: 'Resumen' },
 ]
 
-const events = [
-  { title: 'Reunión de equipo', time: '09:30', tone: 'lavender' },
-  { title: 'Terapia', time: '12:00', tone: 'peach' },
-  { title: 'Clase de yoga', time: '18:30', tone: 'mint' },
-  { title: 'Cena con amigos', time: '20:00', tone: 'sky' },
-]
+function obtenerIniciales(nombre) {
+  return nombre
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((palabra) => palabra[0].toUpperCase())
+    .join('')
+}
 
 export default function App() {
+  const isAuthenticated = useIsAuthenticated()
+  const { instance, accounts } = useMsal()
+  const account = useAccount(accounts[0] ?? null)
+
+  const [vista, setVista] = useState('calendario')
+  const [usuario, setUsuario] = useState(null)
+  const [cargandoUsuario, setCargandoUsuario] = useState(true)
+
+  const tareasApi = useTasks(usuario?.id)
+
+  // Evita disparar la sincronización dos veces para la misma cuenta (p. ej. por el doble
+  // efecto de React StrictMode en desarrollo). El backend también es tolerante a esto,
+  // pero así ahorramos la llamada de red duplicada.
+  const correoSincronizado = useRef(null)
+
+  useEffect(() => {
+    if (!isAuthenticated || !account) return
+    if (correoSincronizado.current === account.username) return
+    correoSincronizado.current = account.username
+
+    setCargandoUsuario(true)
+    sincronizarUsuario({ correo: account.username, nombreCompleto: account.name ?? account.username })
+      .then(setUsuario)
+      .catch(() => setUsuario(null))
+      .finally(() => setCargandoUsuario(false))
+  }, [isAuthenticated, account])
+
+  function cerrarSesion() {
+    instance.logoutRedirect({ postLogoutRedirectUri: window.location.origin }).catch(() => {})
+  }
+
+  if (!isAuthenticated) return <Login />
+
+  if (cargandoUsuario) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-slate-950 text-sm text-slate-400">
+        Cargando tu cuenta...
+      </div>
+    )
+  }
+
+  if (!usuario) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-slate-950 px-4 text-center">
+        <p className="text-sm text-slate-400">
+          No se pudo conectar con el servidor. Verifica que calendario-api esté corriendo.
+        </p>
+        <button
+          type="button"
+          onClick={() => window.location.reload()}
+          className="rounded-full bg-indigo-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-400"
+        >
+          Reintentar
+        </button>
+      </div>
+    )
+  }
+
+  if (tareasApi.cargando) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-slate-950 text-sm text-slate-400">
+        Cargando tus tareas...
+      </div>
+    )
+  }
+
+  const nombre = usuario?.nombreCompleto ?? account?.name ?? 'Usuario'
+
   return (
-    <main className="app-shell">
-      <section className="calendar-card">
-        <header className="calendar-header">
-          <div>
-            <p className="eyebrow">Agenda</p>
-            <h1>Septiembre</h1>
-          </div>
-          <button type="button" className="add-button">
-            + Añadir
-          </button>
-        </header>
+    <div className="min-h-screen bg-slate-950 px-4 py-8 sm:px-8">
+      <div className="mx-auto flex w-full max-w-[1800px] flex-col gap-6">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <nav className="flex w-fit gap-1 rounded-full border border-slate-800 bg-slate-900/60 p-1">
+            {PESTANAS.map((pestana) => (
+              <button
+                key={pestana.id}
+                type="button"
+                onClick={() => setVista(pestana.id)}
+                className={[
+                  'rounded-full px-4 py-1.5 text-sm font-semibold transition',
+                  vista === pestana.id ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-white',
+                ].join(' ')}
+              >
+                {pestana.etiqueta}
+              </button>
+            ))}
+          </nav>
 
-        <div className="calendar-weekdays" aria-label="Días de la semana">
-          {weekDays.map((day) => (
-            <span key={day}>{day}</span>
-          ))}
-        </div>
-
-        <div className="calendar-grid" aria-label="Calendario del mes">
-          {monthDays.map((item, index) => (
-            <div
-              key={`${item.day}-${index}`}
-              className={`day-cell ${item.muted ? 'muted' : ''} ${item.day === 14 ? 'selected' : ''}`}
-            >
-              <span>{item.day}</span>
-              {item.day === 7 && <i className="dot lavender" />}
-              {item.day === 12 && <i className="dot peach" />}
-              {item.day === 18 && <i className="dot mint" />}
-              {item.day === 24 && <i className="dot sky" />}
+          <div className="flex items-center gap-3 rounded-full border border-slate-800 bg-slate-900/60 py-1.5 pl-1.5 pr-3">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-indigo-500 text-xs font-bold text-white">
+              {obtenerIniciales(nombre)}
             </div>
-          ))}
+            <div className="leading-tight">
+              <p className="text-sm font-semibold text-white">{nombre}</p>
+              {usuario?.puesto && <p className="text-xs text-slate-500">{usuario.puesto}</p>}
+            </div>
+            <button
+              type="button"
+              onClick={cerrarSesion}
+              title="Cerrar sesión"
+              className="ml-1 shrink-0 rounded-full p-2 text-slate-500 transition hover:bg-white/5 hover:text-white"
+            >
+              <ArrowRightStartOnRectangleIcon className="size-4" />
+            </button>
+          </div>
         </div>
-      </section>
 
-      <aside className="agenda-card">
-        <div className="agenda-header">
-          <p className="eyebrow">Hoy</p>
-          <h2>Miércoles 18</h2>
-        </div>
-
-        <div className="mini-pills">
-          <span>Trabajos</span>
-          <span>Personal</span>
-          <span>Salud</span>
-        </div>
-
-        <ul className="event-list">
-          {events.map((event) => (
-            <li key={event.title} className={`event-item ${event.tone}`}>
-              <div className="event-bullet" aria-hidden="true" />
-              <div>
-                <h3>{event.title}</h3>
-                <p>{event.time}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </aside>
-    </main>
+        {vista === 'calendario' ? <CalendarView {...tareasApi} /> : <DashboardView {...tareasApi} />}
+      </div>
+    </div>
   )
 }
