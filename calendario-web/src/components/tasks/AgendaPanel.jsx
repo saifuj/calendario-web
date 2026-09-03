@@ -1,8 +1,8 @@
-import TaskItem from './TaskItem'
+﻿import TaskItem from './TaskItem'
 
 export default function AgendaPanel({ etiquetaFecha, tareas, onAlternar, onEliminar, onNuevaTarea }) {
   return (
-    <div className="flex h-full flex-col rounded-3xl border border-slate-800 bg-slate-900/60 p-5 shadow-lg shadow-black/20">
+    <div className="flex h-full flex-col rounded-3xl border border-[var(--surface-800)] bg-[var(--surface-900)]/60 p-5 shadow-lg shadow-black/20">
       <div className="flex items-center justify-between gap-2">
         <div>
           <p className="text-xs font-bold uppercase tracking-widest text-slate-500">Agenda</p>
@@ -11,7 +11,7 @@ export default function AgendaPanel({ etiquetaFecha, tareas, onAlternar, onElimi
         <button
           type="button"
           onClick={onNuevaTarea}
-          className="shrink-0 rounded-full border border-slate-700 bg-slate-800/60 px-4 py-2.5 text-xs font-bold text-slate-200 transition hover:bg-slate-700"
+          className="shrink-0 rounded-full border border-[var(--surface-700)] bg-[var(--surface-800)]/60 px-4 py-2.5 text-xs font-bold text-slate-200 transition hover:bg-[var(--surface-700)]"
         >
           + Agregar
         </button>

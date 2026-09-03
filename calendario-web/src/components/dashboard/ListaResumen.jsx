@@ -1,9 +1,9 @@
-import TaskItem from '../tasks/TaskItem'
+﻿import TaskItem from '../tasks/TaskItem'
 import TaskProgressItem from '../tasks/TaskProgressItem'
 
 export default function ListaResumen({ titulo, tareas, vacio, onAlternar, onEliminar, variante = 'ocurrencia' }) {
   return (
-    <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-5 shadow-lg shadow-black/20">
+    <div className="rounded-3xl border border-[var(--surface-800)] bg-[var(--surface-900)]/60 p-5 shadow-lg shadow-black/20">
       <h2 className="text-sm font-bold uppercase tracking-widest text-slate-300">{titulo}</h2>
       {tareas.length === 0 ? (
         <p className="mt-3 text-sm text-slate-500">{vacio}</p>

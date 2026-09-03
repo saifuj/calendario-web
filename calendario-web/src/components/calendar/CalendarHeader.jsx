@@ -1,4 +1,4 @@
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
+﻿import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
 
 export default function CalendarHeader({
   etiquetaMes,
@@ -8,7 +8,7 @@ export default function CalendarHeader({
   onNuevaTarea,
 }) {
   return (
-    <header className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 bg-slate-800/40 px-4 py-4 sm:px-6">
+    <header className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 bg-[var(--surface-800)]/40 px-4 py-4 sm:px-6">
       <div>
         <p className="text-xs font-bold uppercase tracking-widest text-slate-500">Calendario</p>
         <h1 className="text-lg font-bold capitalize text-white sm:text-xl">{etiquetaMes}</h1>
@@ -42,7 +42,7 @@ export default function CalendarHeader({
         <button
           type="button"
           onClick={onNuevaTarea}
-          className="rounded-md bg-indigo-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm shadow-indigo-950/50 transition hover:bg-indigo-400"
+          className="rounded-md bg-[var(--accent-500)] px-4 py-2.5 text-sm font-semibold text-white shadow-sm shadow-[var(--accent-950)]/50 transition hover:bg-[var(--accent-400)]"
         >
           + Nueva tarea
         </button>

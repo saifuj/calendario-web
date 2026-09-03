@@ -1,4 +1,4 @@
-import DayCell from './DayCell'
+﻿import DayCell from './DayCell'
 import { getWeekdayLabels, isSameDay } from '../../utils/dateUtils'
 
 export default function CalendarGrid({
@@ -11,14 +11,14 @@ export default function CalendarGrid({
 }) {
   return (
     <div>
-      <div className="grid grid-cols-7 gap-px bg-slate-800 text-center text-xs font-semibold uppercase tracking-wide text-slate-400">
+      <div className="grid grid-cols-7 gap-px bg-[var(--surface-800)] text-center text-xs font-semibold uppercase tracking-wide text-slate-400">
         {getWeekdayLabels().map((etiqueta) => (
-          <div key={etiqueta} className="bg-slate-900 py-2">
+          <div key={etiqueta} className="bg-[var(--surface-900)] py-2">
             {etiqueta}
           </div>
         ))}
       </div>
-      <div className="grid grid-cols-7 gap-px bg-slate-800">
+      <div className="grid grid-cols-7 gap-px bg-[var(--surface-800)]">
         {semanas.flatMap((semana, indiceSemana) =>
           semana.map((fecha, indiceDia) => (
             <DayCell

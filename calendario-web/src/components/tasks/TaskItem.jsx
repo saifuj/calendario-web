@@ -1,21 +1,21 @@
-import { XMarkIcon } from '@heroicons/react/20/solid'
+﻿import { XMarkIcon } from '@heroicons/react/20/solid'
 import { RECURRENCIA_LABELS } from '../../utils/recurrence'
 
 const BADGE_POR_TIPO = {
-  unica: 'bg-slate-700/50 text-slate-300',
-  diaria: 'bg-indigo-500/10 text-indigo-300',
+  unica: 'bg-[var(--surface-700)]/50 text-slate-300',
+  diaria: 'bg-[var(--accent-500)]/10 text-[var(--accent-300)]',
   semanal: 'bg-violet-500/10 text-violet-300',
   anual: 'bg-amber-500/10 text-amber-300',
 }
 
 export default function TaskItem({ tarea, onAlternar, onEliminar }) {
   return (
-    <li className="flex items-start gap-3 rounded-2xl border border-slate-800 bg-slate-800/40 p-3.5">
+    <li className="flex items-start gap-3 rounded-2xl border border-[var(--surface-800)] bg-[var(--surface-800)]/40 p-3.5">
       <input
         type="checkbox"
         checked={tarea.completada}
         onChange={onAlternar}
-        className="mt-1 h-5 w-5 shrink-0 rounded border-slate-600 bg-slate-800 accent-indigo-500 focus:ring-indigo-400"
+        className="mt-1 h-5 w-5 shrink-0 rounded border-[var(--surface-600)] bg-[var(--surface-800)] accent-[var(--accent-500)] focus:ring-[var(--accent-400)]"
       />
       <div className="min-w-0 flex-1">
         <div className="flex items-center justify-between gap-2">

@@ -1,9 +1,9 @@
-import { XMarkIcon } from '@heroicons/react/20/solid'
+﻿import { XMarkIcon } from '@heroicons/react/20/solid'
 import { RECURRENCIA_LABELS } from '../../utils/recurrence'
 
 const BADGE_POR_TIPO = {
-  unica: 'bg-slate-700/50 text-slate-300',
-  diaria: 'bg-indigo-500/10 text-indigo-300',
+  unica: 'bg-[var(--surface-700)]/50 text-slate-300',
+  diaria: 'bg-[var(--accent-500)]/10 text-[var(--accent-300)]',
   semanal: 'bg-violet-500/10 text-violet-300',
   anual: 'bg-amber-500/10 text-amber-300',
 }
@@ -15,7 +15,7 @@ export default function TaskProgressItem({ tarea, onEliminar }) {
     tarea.totalOcurrencias === 0 ? 0 : Math.round((tarea.completadas / tarea.totalOcurrencias) * 100)
 
   return (
-    <li className="rounded-2xl border border-slate-800 bg-slate-800/40 p-3.5">
+    <li className="rounded-2xl border border-[var(--surface-800)] bg-[var(--surface-800)]/40 p-3.5">
       <div className="flex items-center justify-between gap-2">
         <p className="truncate text-sm font-semibold text-white">{tarea.titulo}</p>
         <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold ${BADGE_POR_TIPO[tarea.tipo]}`}>
@@ -23,8 +23,8 @@ export default function TaskProgressItem({ tarea, onEliminar }) {
         </span>
       </div>
       <div className="mt-2.5 flex items-center gap-2.5">
-        <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-slate-700">
-          <div className="h-full rounded-full bg-indigo-500" style={{ width: `${porcentaje}%` }} />
+        <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[var(--surface-700)]">
+          <div className="h-full rounded-full bg-[var(--accent-500)]" style={{ width: `${porcentaje}%` }} />
         </div>
         <span className="shrink-0 text-xs font-semibold text-slate-400">
           {tarea.completadas}/{tarea.totalOcurrencias}

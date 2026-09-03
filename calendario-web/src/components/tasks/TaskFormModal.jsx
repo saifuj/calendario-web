@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { XMarkIcon } from '@heroicons/react/20/solid'
 import { toISODate } from '../../utils/dateUtils'
 import { RECURRENCIA_LABELS, TIPOS_RECURRENCIA } from '../../utils/recurrence'
@@ -11,7 +11,7 @@ const DESCRIPCION_TIPO = {
 }
 
 const ESTILO_CAMPO =
-  'rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-sm font-normal text-white placeholder-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30'
+  'rounded-xl border border-[var(--surface-700)] bg-[var(--surface-800)] px-3 py-2 text-sm font-normal text-white placeholder-slate-500 focus:border-[var(--accent-500)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-500)]/30'
 
 function sumarMeses(fechaISO, meses) {
   const fecha = new Date(`${fechaISO}T00:00:00`)
@@ -58,7 +58,7 @@ export default function TaskFormModal({ fechaInicial, onCerrar, onGuardar }) {
       onClick={onCerrar}
     >
       <div
-        className="w-full max-w-md rounded-3xl border border-slate-800 bg-slate-900 p-6 shadow-2xl"
+        className="w-full max-w-md rounded-3xl border border-[var(--surface-800)] bg-[var(--surface-900)] p-6 shadow-2xl"
         onClick={(evento) => evento.stopPropagation()}
       >
         <div className="flex items-center justify-between">
@@ -80,7 +80,7 @@ export default function TaskFormModal({ fechaInicial, onCerrar, onGuardar }) {
               value={titulo}
               onChange={(evento) => setTitulo(evento.target.value)}
               required
-              placeholder="Ej. Tomar medicamento"
+              placeholder="Poner título"
               className={ESTILO_CAMPO}
             />
           </label>
@@ -91,7 +91,7 @@ export default function TaskFormModal({ fechaInicial, onCerrar, onGuardar }) {
               value={descripcion}
               onChange={(evento) => setDescripcion(evento.target.value)}
               rows={2}
-              placeholder="Opcional"
+              placeholder="Poner descripción (opcional)"
               className={`resize-none ${ESTILO_CAMPO}`}
             />
           </label>
@@ -138,7 +138,7 @@ export default function TaskFormModal({ fechaInicial, onCerrar, onGuardar }) {
 
           <button
             type="submit"
-            className="mt-2 rounded-full bg-indigo-600 py-2 text-sm font-bold text-white shadow-md shadow-indigo-950/50 transition hover:bg-indigo-500"
+            className="mt-2 rounded-full bg-[var(--accent-600)] py-2 text-sm font-bold text-white shadow-md shadow-[var(--accent-950)]/50 transition hover:bg-[var(--accent-500)]"
           >
             Guardar tarea
           </button>

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+﻿import { useMemo, useState } from 'react'
 import StatCard from './StatCard'
 import ListaResumen from './ListaResumen'
 import { construirResumen, obtenerEtiquetaPeriodo } from '../../utils/taskStats'
@@ -39,7 +39,7 @@ export default function DashboardView({ tareas, obtenerTareasDelDia, alternarCom
           <h1 className="text-2xl font-bold capitalize text-white sm:text-3xl">Actividades de {etiquetaPeriodo}</h1>
         </div>
 
-        <div className="flex w-fit gap-1 rounded-full border border-slate-800 bg-slate-900/60 p-1">
+        <div className="flex w-fit gap-1 rounded-full border border-[var(--surface-800)] bg-[var(--surface-900)]/60 p-1">
           {PERIODOS.map((opcion) => (
             <button
               key={opcion.id}
@@ -47,7 +47,7 @@ export default function DashboardView({ tareas, obtenerTareasDelDia, alternarCom
               onClick={() => setPeriodo(opcion.id)}
               className={[
                 'rounded-full px-4 py-1.5 text-sm font-semibold transition',
-                periodo === opcion.id ? 'bg-indigo-500 text-white' : 'text-slate-400 hover:text-white',
+                periodo === opcion.id ? 'bg-[var(--accent-500)] text-white' : 'text-slate-400 hover:text-white',
               ].join(' ')}
             >
               {opcion.etiqueta}
@@ -57,7 +57,7 @@ export default function DashboardView({ tareas, obtenerTareasDelDia, alternarCom
       </div>
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-        <StatCard etiqueta="Ocurrencias" valor={resumen.totalOcurrencias} colorTexto="text-indigo-400" />
+        <StatCard etiqueta="Ocurrencias" valor={resumen.totalOcurrencias} colorTexto="text-[var(--accent-400)]" />
         <StatCard etiqueta="Completadas" valor={resumen.completadasOcurrencias.length} colorTexto="text-emerald-400" />
         <StatCard etiqueta="Pendientes" valor={resumen.pendientesOcurrencias.length} colorTexto="text-amber-400" />
         <StatCard etiqueta="Vencidas" valor={resumen.vencidas.length} colorTexto="text-rose-400" />
@@ -90,13 +90,13 @@ export default function DashboardView({ tareas, obtenerTareasDelDia, alternarCom
         onEliminar={eliminarTarea}
       />
 
-      <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-5 shadow-lg shadow-black/20">
+      <div className="rounded-3xl border border-[var(--surface-800)] bg-[var(--surface-900)]/60 p-5 shadow-lg shadow-black/20">
         <h2 className="text-sm font-bold uppercase tracking-widest text-slate-300">Tareas por tipo</h2>
         <div className="mt-3 flex flex-wrap gap-2">
           {Object.entries(RECURRENCIA_LABELS).map(([tipo, etiqueta]) => (
             <span
               key={tipo}
-              className="rounded-full border border-slate-700 bg-slate-800/60 px-3 py-1.5 text-xs font-bold text-slate-200"
+              className="rounded-full border border-[var(--surface-700)] bg-[var(--surface-800)]/60 px-3 py-1.5 text-xs font-bold text-slate-200"
             >
               {etiqueta}: {resumen.conteoPorTipo[tipo] ?? 0}
             </span>

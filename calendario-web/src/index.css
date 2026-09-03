@@ -1,5 +1,67 @@
 @import "tailwindcss";
 
+/* Color de acento del tema (ver src/hooks/useTheme.js): estos valores son los que cambian
+   cuando eliges un tema en el selector; el resto de la paleta (fondo navy, colores de estado
+   como completada/pendiente/vencida) se queda fija. */
+:root {
+  --accent-300: #a5b4fc;
+  --accent-400: #818cf8;
+  --accent-500: #6366f1;
+  --accent-600: #4f46e5;
+  --accent-950: #1e1b4b;
+}
+
+[data-theme='azul'] {
+  --accent-300: #93c5fd;
+  --accent-400: #60a5fa;
+  --accent-500: #3b82f6;
+  --accent-600: #2563eb;
+  --accent-950: #172554;
+}
+
+[data-theme='violeta'] {
+  --accent-300: #c4b5fd;
+  --accent-400: #a78bfa;
+  --accent-500: #8b5cf6;
+  --accent-600: #7c3aed;
+  --accent-950: #2e1065;
+}
+
+[data-theme='esmeralda'] {
+  --accent-300: #6ee7b7;
+  --accent-400: #34d399;
+  --accent-500: #10b981;
+  --accent-600: #059669;
+  --accent-950: #022c22;
+}
+
+[data-theme='rosa'] {
+  --accent-300: #fda4af;
+  --accent-400: #fb7185;
+  --accent-500: #f43f5e;
+  --accent-600: #e11d48;
+  --accent-950: #4c0519;
+}
+
+[data-theme='ambar'] {
+  --accent-300: #fcd34d;
+  --accent-400: #fbbf24;
+  --accent-500: #f59e0b;
+  --accent-600: #d97706;
+  --accent-950: #451a03;
+}
+
+/* Superficies (fondo de página, tarjetas, bordes, hover) teñidas con el acento del tema
+   elegido. No hace falta redefinir esto por tema: al ser color-mix() con --accent-500,
+   cambian solas en cuanto [data-theme] cambia ese valor arriba. */
+:root {
+  --surface-950: color-mix(in srgb, var(--accent-500) 6%, #020617);
+  --surface-900: color-mix(in srgb, var(--accent-500) 9%, #0f172a);
+  --surface-800: color-mix(in srgb, var(--accent-500) 13%, #1e293b);
+  --surface-700: color-mix(in srgb, var(--accent-500) 16%, #334155);
+  --surface-600: color-mix(in srgb, var(--accent-500) 20%, #475569);
+}
+
 :root {
   font-family: 'Inter', 'Segoe UI', sans-serif;
   line-height: 1.5;

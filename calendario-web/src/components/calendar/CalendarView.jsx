@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+﻿import { useMemo, useState } from 'react'
 import CalendarHeader from './CalendarHeader'
 import CalendarGrid from './CalendarGrid'
 import AgendaPanel from '../tasks/AgendaPanel'
@@ -38,7 +38,7 @@ export default function CalendarView({ agregarTarea, eliminarTarea, alternarComp
   return (
     <div className="flex flex-col gap-6">
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
-        <div className="overflow-hidden rounded-2xl bg-slate-900 ring-1 ring-white/10">
+        <div className="overflow-hidden rounded-2xl bg-[var(--surface-900)] ring-1 ring-white/10">
           <CalendarHeader
             etiquetaMes={getMonthLabel(mesActual)}
             onMesAnterior={() => setMesActual((mes) => addMonths(mes, -1))}
